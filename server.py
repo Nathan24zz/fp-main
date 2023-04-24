@@ -20,11 +20,14 @@ def disconnect(sid):
     print('disconnect ', sid)
 
 cam = cv2.VideoCapture(0)
+cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
 def send_image():
     while True:
         sio.sleep(0.2)
         _, frame = cam.read()                     # get frame from webcam
+        frame = cv2.resize(frame, (320, 240))
         _, frame = cv2.imencode('.jpg', frame)    # from image to binary buffer
         data = base64.b64encode(frame)            # convert to base64 format
         sio.emit('image', data)  
