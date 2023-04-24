@@ -31,6 +31,11 @@ def connect(sid, environ):
 def disconnect(sid):
     print('disconnect ', sid)
 
+@sio.on('state_recording')
+def stateRecoring(sid, data):
+    print('state_recording ', data)
+    # record join robot and save to json
+
 def send_image():
     while True:
         sio.sleep(0.1)
