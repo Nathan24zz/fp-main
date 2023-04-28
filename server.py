@@ -1,6 +1,8 @@
 import base64
 import cv2
 import eventlet
+from eventlet.green import threading
+eventlet.monkey_patch()
 import socketio
 import mediapipe as mp
 
@@ -19,9 +21,6 @@ pose = mp_pose.Pose(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5
 )
-cam = cv2.VideoCapture(0)
-cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
 @sio.on('connect')
 def connect(sid, environ):
@@ -37,10 +36,16 @@ def stateRecoring(sid, data):
     # record join robot and save to json
 
 def send_image():
+    cam = cv2.VideoCapture(0)
+    cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+    cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+
     while True:
         sio.sleep(0.1)
         success, frame = cam.read()                     # get frame from webcam
-        if not success: continue
+        if not success:
+            print('not success') 
+            continue
 
         frame = cv2.resize(frame, (320, 240))
         # To improve performance, optionally mark the image as not writeable to
@@ -59,9 +64,12 @@ def send_image():
         # encode and send to client
         _, frame = cv2.imencode('.jpg', frame)    # from image to binary buffer
         data = base64.b64encode(frame)            # convert to base64 format
-        sio.emit('image', data)  
+        sio.emit('image', data)
+    cam.release()
+
+def server():
+    eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
 
 if __name__ == '__main__':
-    thread = sio.start_background_task(send_image)
-    eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
-    cam.release()
+    threading.Thread(target=send_image).start()
+    threading.Thread(target=server).start()

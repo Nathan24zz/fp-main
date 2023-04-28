@@ -1,0 +1,6 @@
+[submodule "src/motion_matching"]
+	path = src/motion_matching
+	url = git@github.com:Nathan24zz/motion_matching.git
+[submodule "src/tachimawari_interfaces"]
+	path = src/tachimawari_interfaces
+	url = https://github.com/ichiro-its/tachimawari_interfaces.git
