@@ -6,7 +6,13 @@ Python server communicate with Javascript client.
 ## Run Server
 
 ```
-python server.py
+python3 server.py
+```
+or
+```
+colcon build --packages-select motion_matching
+source install/setup.bash
+ros2 run motion_matching main
 ```
 
 ## Run Client
