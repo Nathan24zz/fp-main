@@ -1,7 +1,7 @@
 # fp-main
 
 Final Project Main Program.\
-Python server communicate with Javascript client.
+Python server communicate with Javascript client. The server using socketio, runs on a thread alongside with ROS2 node 
 
 ## Run Server
 
