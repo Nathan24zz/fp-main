@@ -2,21 +2,22 @@ import "./App.css";
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import { Buffer } from 'buffer';
+import NavBar from "./components/NavBar";
 
 const socket = io.connect("http://localhost:5000");
 
 function App() {
-  var state_recording = false;
+  const [stateRecoding, setStateRecording] = useState(false);
   const [imageReceived, setImageReceived] = useState("");
 
   const StartRecording = () => {
-    state_recording = true;
-    socket.emit("state_recording", state_recording);
+    setStateRecording(true);
+    socket.emit("state_recording", stateRecoding);
   };
 
   const StopRecording = () => {
-    state_recording = false;
-    socket.emit("state_recording", state_recording);
+    setStateRecording(false);
+    socket.emit("state_recording", stateRecoding);
   };
 
   useEffect(() => {
@@ -28,11 +29,11 @@ function App() {
 
   return (
     <div className="App">
-      <h1> Image:</h1>
-      {imageReceived ? <img alt="webcam-img" src={`data:image/png;base64,${imageReceived}`}/>: ''}
-      <button onClick={StartRecording}> Start Recording</button>
-      <button onClick={StopRecording}> Stop Recording</button>
-    </div>
+      <NavBar />
+      {imageReceived ? <img className="img-thumbnail" alt="webcam-img" src={`data:image/png;base64,${imageReceived}`} /> : ''}
+      <button className="btn btn-primary" type="button" onClick={StartRecording}> Start Recording</button>
+      <button className="btn btn-secondary" type="button" onClick={StopRecording}> Stop Recording</button>
+    </div >
   );
 }
 
