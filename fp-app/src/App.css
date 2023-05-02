@@ -1,3 +1,7 @@
-.App {
+body {
   text-align: center;
+}
+
+.state{
+  display: block;
 }
