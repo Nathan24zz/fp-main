@@ -10,14 +10,11 @@ python3 server.py
 ```
 or
 ```
-colcon build --packages-select motion_matching
-source install/setup.bash
-ros2 run motion_matching main
+bash start_server.bash
 ```
 
 ## Run Client
 
 ```
-cd fp-app
-npm start
+bash start_client.bash
 ```

@@ -2,6 +2,17 @@ body {
   text-align: center;
 }
 
+.img-thumbnail{
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
 .state{
   display: block;
 }
+
+.state button{
+  margin-top: 10px;
+  margin-right: 5px;
+}
+

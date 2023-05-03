@@ -15,27 +15,11 @@ function App() {
   const StateRecording = () => {
     setState("recording");
     setStateRecording("");
-    console.log(state)
-    socket.emit("state", state);
   };
 
   const StatePlay = () => {
     setState("play");
     setStateRecording("");
-    console.log(state)
-    socket.emit("state", state);
-  };
-
-  const StartRecording = () => {
-    setStateRecording("start");
-    console.log(stateRecoding)
-    socket.emit("state_recording", true);
-  };
-
-  const StopRecording = () => {
-    setStateRecording("stop");
-    console.log(stateRecoding)
-    socket.emit("state_recording", false);
   };
 
   useEffect(() => {
@@ -45,13 +29,24 @@ function App() {
     });
   });
 
+  useEffect(() => {
+    console.log(state);
+    socket.emit("state", state);
+  }, [state]);
+
+  useEffect(() => {
+    console.log(stateRecoding);
+    if (stateRecoding === "start") { socket.emit("state_recording", true) }
+    else { socket.emit("state_recording", false) }
+  }, [stateRecoding]);
+
   return (
     <div className="App">
       <NavBar />
       {imageReceived ? <img className="img-thumbnail" alt="webcam-img" src={`data:image/png;base64,${imageReceived}`} /> : ''}
 
-      <div className="state-web">
-        <button onClick={StateRecording}
+      <div className="state">
+        <button onClick={(StateRecording)}
           className={state === "recording" ? "btn btn-primary" : "btn btn-outline-primary"}
           type="button">
           State Recording
@@ -63,13 +58,13 @@ function App() {
         </button>
       </div>
 
-      <div className="state-button">
-        <button onClick={StartRecording}
+      <div className="state">
+        <button onClick={() => { setStateRecording("start") }}
           className={stateRecoding === "start" && state ? "btn btn-secondary" : "btn btn-outline-secondary"}
           type="button">
           Start
         </button>
-        <button onClick={StopRecording}
+        <button onClick={() => { setStateRecording("stop") }}
           className={stateRecoding === "stop" && state ? "btn btn-secondary" : "btn btn-outline-secondary"}
           type="button">
           Stop
