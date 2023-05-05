@@ -10,7 +10,8 @@ const socket = io.connect("http://localhost:5000");
 function App() {
   const [state, setState] = useState("");
   const [stateRecoding, setStateRecording] = useState("");
-  const [imageReceived, setImageReceived] = useState("");
+  const [humanImage, setHumanImage] = useState("");
+  const [robotImage, setRobotImage] = useState("");
 
   const StateRecording = () => {
     setState("recording");
@@ -23,9 +24,16 @@ function App() {
   };
 
   useEffect(() => {
-    socket.on("image", function (data) {
+    socket.on("human_image", function (data) {
       var frame = Buffer.from(data, 'base64').toString()
-      setImageReceived(frame);
+      setHumanImage(frame);
+    });
+  });
+
+  useEffect(() => {
+    socket.on("robot_image", function (data) {
+      var frame = Buffer.from(data, 'base64').toString()
+      setRobotImage(frame);
     });
   });
 
@@ -43,7 +51,8 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      {imageReceived ? <img className="img-thumbnail" alt="webcam-img" src={`data:image/png;base64,${imageReceived}`} /> : ''}
+      {humanImage ? <img className="img-thumbnail" alt="webcam-img" src={`data:image/png;base64,${humanImage}`} /> : ''}
+      {robotImage ? <img className="img-thumbnail" alt="webcam-img" src={`data:image/png;base64,${robotImage}`} /> : ''}
 
       <div className="state">
         <button onClick={(StateRecording)}
