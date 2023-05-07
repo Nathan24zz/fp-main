@@ -5,7 +5,7 @@ import { Buffer } from 'buffer';
 import NavBar from "./components/NavBar";
 // import Button from "./components/Button";
 
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect("http://localhost:5555");
 
 function App() {
   const [state, setState] = useState("");
