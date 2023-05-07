@@ -9,7 +9,7 @@ const socket = io.connect("http://localhost:5000");
 
 function App() {
   const [state, setState] = useState("");
-  const [stateRecoding, setStateRecording] = useState("");
+  const [stateRecording, setStateRecording] = useState("");
   const [humanImage, setHumanImage] = useState("");
   const [robotImage, setRobotImage] = useState("");
 
@@ -43,10 +43,9 @@ function App() {
   }, [state]);
 
   useEffect(() => {
-    console.log(stateRecoding);
-    if (stateRecoding === "start") { socket.emit("state_recording", true) }
-    else { socket.emit("state_recording", false) }
-  }, [stateRecoding]);
+    console.log(stateRecording);
+    socket.emit("state_recording", stateRecording)
+  }, [stateRecording]);
 
   return (
     <div className="App">
@@ -69,12 +68,12 @@ function App() {
 
       <div className="state">
         <button onClick={() => { setStateRecording("start") }}
-          className={stateRecoding === "start" && state ? "btn btn-secondary" : "btn btn-outline-secondary"}
+          className={stateRecording === "start" && state ? "btn btn-secondary" : "btn btn-outline-secondary"}
           type="button">
           Start
         </button>
         <button onClick={() => { setStateRecording("stop") }}
-          className={stateRecoding === "stop" && state ? "btn btn-secondary" : "btn btn-outline-secondary"}
+          className={stateRecording === "stop" && state ? "btn btn-secondary" : "btn btn-outline-secondary"}
           type="button">
           Stop
         </button>
