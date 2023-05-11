@@ -164,5 +164,6 @@ build
 install
 log
 
-# Image for pose comparison later
-image
+# Image and json for pose comparison later
+data
+weight
