@@ -165,5 +165,5 @@ install
 log
 
 # Image and json for pose comparison later
-data
+data*
 weight
